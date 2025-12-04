@@ -2,6 +2,7 @@ import { ArrowDown, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SocialLinks } from "./SocialLinks";
 import heroBg from "@/assets/hero-bg.jpg";
+import profilePhoto from "@/assets/profile-photo.jpeg";
 
 export const HeroSection = () => {
   return (
@@ -39,12 +40,12 @@ export const HeroSection = () => {
         <div className="max-w-4xl mx-auto text-center">
           {/* Profile Image */}
           <div className="mb-8 relative inline-block">
-            <div className="w-40 h-40 md:w-48 md:h-48 rounded-full bg-gradient-to-br from-primary to-accent p-1 mx-auto animate-pulse">
-              <div className="w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden">
-                <span className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  SS
-                </span>
-              </div>
+            <div className="w-40 h-40 md:w-48 md:h-48 rounded-full bg-gradient-to-br from-primary to-accent p-1 mx-auto">
+              <img
+                src={profilePhoto}
+                alt="Sunbal Shehzadi - AI & ML Engineer"
+                className="w-full h-full rounded-full object-cover"
+              />
             </div>
             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-4 py-1 bg-primary text-primary-foreground text-sm font-medium rounded-full">
               AI/ML Engineer
