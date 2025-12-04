@@ -1,5 +1,7 @@
 import { Target, Lightbulb, Heart, Rocket } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import profilePhoto from "@/assets/profile-photo.jpeg";
+
 const values = [{
   icon: Target,
   title: "Problem Solver",
@@ -17,9 +19,10 @@ const values = [{
   title: "Innovation Driven",
   description: "Focused on building innovative solutions that push the boundaries of what's possible."
 }];
+
 export const AboutSection = () => {
   return <section id="about" className="py-20">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-6xl">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             About <span className="text-primary">Me</span>
@@ -27,9 +30,13 @@ export const AboutSection = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div>
+          <div className="flex justify-center">
             <div className="relative">
-              
+              <img 
+                src={profilePhoto} 
+                alt="Sunbal Shehzadi - AI & ML Engineer" 
+                className="w-72 h-72 md:w-80 md:h-80 object-cover rounded-2xl shadow-xl border-4 border-primary/20"
+              />
               <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-accent/20 rounded-full blur-2xl" />
               <div className="absolute -top-4 -left-4 w-32 h-32 bg-primary/20 rounded-full blur-2xl" />
             </div>
