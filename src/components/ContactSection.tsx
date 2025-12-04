@@ -7,29 +7,25 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { SocialLinks } from "./SocialLinks";
 import { useToast } from "@/hooks/use-toast";
-
 export const ContactSection = () => {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
+    await new Promise(resolve => setTimeout(resolve, 1000));
     toast({
       title: "Message sent!",
-      description: "Thank you for reaching out. I'll get back to you soon!",
+      description: "Thank you for reaching out. I'll get back to you soon!"
     });
-    
     setIsSubmitting(false);
     (e.target as HTMLFormElement).reset();
   };
-
-  return (
-    <section id="contact" className="py-20 bg-muted/30">
+  return <section id="contact" className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -57,11 +53,8 @@ export const ContactSection = () => {
                 </div>
                 <div>
                   <p className="font-medium">Email</p>
-                  <a
-                    href="mailto:sunbalshehzadi@gmail.com"
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    sunbalshehzadi@gmail.com
+                  <a className="text-muted-foreground hover:text-primary transition-colors" href="mailto:sunbalshehzadi7@gmail.com">
+                    sunbalshehzadi7@gmail.com
                   </a>
                 </div>
               </div>
@@ -89,62 +82,31 @@ export const ContactSection = () => {
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="name">Name</Label>
-                    <Input
-                      id="name"
-                      placeholder="Your name"
-                      required
-                      className="bg-background"
-                    />
+                    <Input id="name" placeholder="Your name" required className="bg-background" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="your@email.com"
-                      required
-                      className="bg-background"
-                    />
+                    <Input id="email" type="email" placeholder="your@email.com" required className="bg-background" />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="subject">Subject</Label>
-                  <Input
-                    id="subject"
-                    placeholder="What's this about?"
-                    required
-                    className="bg-background"
-                  />
+                  <Input id="subject" placeholder="What's this about?" required className="bg-background" />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="message">Message</Label>
-                  <Textarea
-                    id="message"
-                    placeholder="Tell me about your project..."
-                    required
-                    rows={5}
-                    className="bg-background resize-none"
-                  />
+                  <Textarea id="message" placeholder="Tell me about your project..." required rows={5} className="bg-background resize-none" />
                 </div>
-                <Button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    "Sending..."
-                  ) : (
-                    <>
+                <Button type="submit" className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90" disabled={isSubmitting}>
+                  {isSubmitting ? "Sending..." : <>
                       <Send className="mr-2 h-4 w-4" />
                       Send Message
-                    </>
-                  )}
+                    </>}
                 </Button>
               </form>
             </CardContent>
           </Card>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
