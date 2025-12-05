@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import emailjs from "@emailjs/browser";
 import { Mail, MapPin, Send } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,25 +8,64 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { SocialLinks } from "./SocialLinks";
 import { useToast } from "@/hooks/use-toast";
+
+// EmailJS Configuration - Replace these with your actual values from emailjs.com
+const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID"; // e.g., "service_xxxxxxx"
+const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID"; // e.g., "template_xxxxxxx"
+const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY"; // e.g., "xxxxxxxxxxxxxxx"
+
 export const ContactSection = () => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    if (!formRef.current) return;
+
+    // Validate EmailJS configuration
+    if (EMAILJS_SERVICE_ID === "YOUR_SERVICE_ID" || 
+        EMAILJS_TEMPLATE_ID === "YOUR_TEMPLATE_ID" || 
+        EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY") {
+      toast({
+        title: "Configuration Required",
+        description: "Please configure EmailJS credentials in ContactSection.tsx",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    toast({
-      title: "Message sent!",
-      description: "Thank you for reaching out. I'll get back to you soon!"
-    });
-    setIsSubmitting(false);
-    (e.target as HTMLFormElement).reset();
+    try {
+      await emailjs.sendForm(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        EMAILJS_PUBLIC_KEY
+      );
+
+      toast({
+        title: "Message sent successfully!",
+        description: "Thank you for reaching out. I'll get back to you soon!",
+      });
+      
+      formRef.current.reset();
+    } catch (error) {
+      console.error("EmailJS error:", error);
+      toast({
+        title: "Failed to send message",
+        description: "Please try again or email me directly at sunbalshehzadi7@gmail.com",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
-  return <section id="contact" className="py-20 bg-muted/30">
+
+  return (
+    <section id="contact" className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -78,35 +118,72 @@ export const ContactSection = () => {
 
           <Card className="bg-card border-border/50">
             <CardContent className="pt-6">
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="Your name" required className="bg-background" />
+                    <Label htmlFor="from_name">Name</Label>
+                    <Input 
+                      id="from_name" 
+                      name="from_name" 
+                      placeholder="Your name" 
+                      required 
+                      className="bg-background" 
+                    />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="your@email.com" required className="bg-background" />
+                    <Label htmlFor="from_email">Email</Label>
+                    <Input 
+                      id="from_email" 
+                      name="from_email" 
+                      type="email" 
+                      placeholder="your@email.com" 
+                      required 
+                      className="bg-background" 
+                    />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="subject">Subject</Label>
-                  <Input id="subject" placeholder="What's this about?" required className="bg-background" />
+                  <Input 
+                    id="subject" 
+                    name="subject" 
+                    placeholder="What's this about?" 
+                    required 
+                    className="bg-background" 
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="message">Message</Label>
-                  <Textarea id="message" placeholder="Tell me about your project..." required rows={5} className="bg-background resize-none" />
+                  <Textarea 
+                    id="message" 
+                    name="message" 
+                    placeholder="Tell me about your project..." 
+                    required 
+                    rows={5} 
+                    className="bg-background resize-none" 
+                  />
                 </div>
-                <Button type="submit" className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90" disabled={isSubmitting}>
-                  {isSubmitting ? "Sending..." : <>
+                {/* Hidden field for recipient email */}
+                <input type="hidden" name="to_email" value="sunbalshehzadi7@gmail.com" />
+                <Button 
+                  type="submit" 
+                  className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90" 
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    "Sending..."
+                  ) : (
+                    <>
                       <Send className="mr-2 h-4 w-4" />
                       Send Message
-                    </>}
+                    </>
+                  )}
                 </Button>
               </form>
             </CardContent>
           </Card>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
